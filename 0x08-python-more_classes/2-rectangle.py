@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # 2-rectangle.py
+# Brennan D Baraban <375@holbertonschool.com>
 """Defines a Rectangle class."""
 
 
@@ -50,4 +51,3 @@ class Rectangle:
         if self.__width == 0 or self.__height == 0:
             return (0)
         return ((self.__width * 2) + (self.__height * 2))
-Footer
