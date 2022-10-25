@@ -1,10 +1,13 @@
 #!/usr/bin/python3
-# 8-load_from_json_file.py
-"""Defines a JSON file-reading function."""
-import json
+""" Module that returns the dictionary description with a simple
+data structure for a JSON serialization of an object
+"""
 
 
-def load_from_json_file(filename):
-    """Create a Python object from a JSON file."""
-    with open(filename) as f:
-        return json.load(f)
+def class_to_json(obj):
+    """ Function that retuns the dictionary description of an obj """
+
+    res = {}
+    if hasattr(obj, "__dict__"):
+        res = obj.__dict__.copy()
+    return res
