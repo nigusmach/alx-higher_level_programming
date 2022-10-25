@@ -1,52 +1,21 @@
 #!/usr/bin/python3
-import sys
+""" Module that executes a function that appends a line """
 
 
-def print_info():
-    print('File size: {:d}'.format(file_size))
+def append_after(filename="", search_string="", new_string=""):
+    """ Function that appends a new line when a string is found
+    Args:
+        filename: filename
+        search_string: string to search
+        new_string: string to append
+    """
 
-    for scode, code_times in sorted(status_codes.items()):
-        if code_times > 0:
-            print('{}: {:d}'.format(scode, code_times))
+    res_line = []
+    with open(filename, 'r', encoding="utf-8") as f:
+        for line in f:
+            res_line += [line]
+            if line.find(search_string) != -1:
+                res_line += [new_string]
 
-
-status_codes = {
-    '200': 0,
-    '301': 0,
-    '400': 0,
-    '401': 0,
-    '403': 0,
-    '404': 0,
-    '405': 0,
-    '500': 0
-}
-
-lc = 0
-file_size = 0
-
-try:
-    for line in sys.stdin:
-        if lc != 0 and lc % 10 == 0:
-            print_info()
-
-        pieces = line.split()
-
-        try:
-            status = int(pieces[-2])
-
-            if str(status) in status_codes.keys():
-                status_codes[str(status)] += 1
-        except:
-            pass
-
-        try:
-            file_size += int(pieces[-1])
-        except:
-            pass
-
-        lc += 1
-
-    print_info()
-except KeyboardInterrupt:
-    print_info()
-    raise
+    with open(filename, 'w', encoding="utf-8") as f:
+        f.write("".join(res_line))
