@@ -1,51 +1,52 @@
 #!/usr/bin/python3
-
-""" Module that executes a function that appends a line """
-
+import sys
 
 
+def print_info():
+    print('File size: {:d}'.format(file_size))
+
+    for scode, code_times in sorted(status_codes.items()):
+        if code_times > 0:
+            print('{}: {:d}'.format(scode, code_times))
 
 
-def append_after(filename="", search_string="", new_string=""):
+status_codes = {
+    '200': 0,
+    '301': 0,
+    '400': 0,
+    '401': 0,
+    '403': 0,
+    '404': 0,
+    '405': 0,
+    '500': 0
+}
 
-        """ Function that appends a new line when a string is found
+lc = 0
+file_size = 0
 
-            Args:
+try:
+    for line in sys.stdin:
+        if lc != 0 and lc % 10 == 0:
+            print_info()
 
-                    filename: filename
+        pieces = line.split()
 
-                            search_string: string to search
+        try:
+            status = int(pieces[-2])
 
-                                    new_string: string to append
+            if str(status) in status_codes.keys():
+                status_codes[str(status)] += 1
+        except:
+            pass
 
-                                        """
+        try:
+            file_size += int(pieces[-1])
+        except:
+            pass
 
+        lc += 1
 
-
-                                            res_line = []
-
-                                                with open(filename, 'r', encoding="utf-8") as f:
-
-                                                            for line in f:
-
-                                                                            res_line += [line]
-
-                                                                                        if line.find(search_string) != -1:
-
-                                                                                                            res_line += [new_string]
-
-
-
-                                                                                                                with open(filename, 'w', encoding="utf-8") as f:
-
-                                                                                                                            f.write("".join(res_line))
-
-                                                                                                                            Footer
-
-                                                                                                                            © 2022 GitHub, Inc.
-
-                                                                                                                            Footer navigation
-
-                                                                                                                            Terms
-
-                                                                                                                            Privacy
+    print_info()
+except KeyboardInterrupt:
+    print_info()
+    raise
