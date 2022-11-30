@@ -1,21 +1,10 @@
--- lists all shows from hbtn_0d_tvshows_rate by their rating.
+-- creates the database hbtn_0d_2 and the user user_0d_2.
+-- user_0d_2 should have only SELECT privilege in the database hbtn_0d_2
+-- The user_0d_2 password should be set to user_0d_2_pwd
+-- If the database hbtn_0d_2 already exists, your script should not fail
+-- If the user user_0d_2 already exists, your script should not fail
 
--- Each record should display: tv_shows.title - rating sum
-
--- Results must be sorted in acending order by the rating
-
--- The database name will be passed as an argument of the mysql command
-
-
-
-SELECT tv_shows.title, SUM(tv_show_ratings.rate) AS rating
-
-FROM tv_shows
-
-INNER JOIN tv_show_ratings
-
-ON tv_shows.id = tv_show_ratings.show_id
-
-GROUP BY tv_shows.id
-
-ORDER BY rating DESC;
+CREATE DATABASE IF NOT EXISTS hbtn_0d_2;
+CREATE USER IF NOT EXISTS 'user_0d_2'@'localhost' IDENTIFIED BY 'user_0d_2_pwd';
+GRANT SELECT ON `hbtn_0d_2`.* TO 'user_0d_2'@'localhost';
+FLUSH PRIVILEGES;
