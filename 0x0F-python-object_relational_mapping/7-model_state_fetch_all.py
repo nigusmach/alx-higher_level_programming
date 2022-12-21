@@ -1,81 +1,26 @@
 #!/usr/bin/python3
-
 """
-
-This script takes in an argument and
-
-displays all values in the states
-
-where `name` matches the argument
-
-from the database `hbtn_0e_0_usa`.
-
-This time the script is safe from
-
-MySQL injections!
-
+This script lists all State objects
+from the database `hbtn_0e_6_usa`.
 """
-
-
-
-import MySQLdb
 
 from sys import argv
+from model_state import Base, State
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
+if __name__ == "__main__":
+    """
+    Access to the database and get the states
+    from the database.
+    """
 
+    db_uri = 'mysql+mysqldb://{}:{}@localhost:3306/{}'.format(
+        argv[1], argv[2], argv[3])
+    engine = create_engine(db_uri)
+    Session = sessionmaker(bind=engine)
 
-if __name__ == '__main__':
+    session = Session()
 
-        """
-
-            Access to the database and get the states
-
-                from the database.
-
-                    """
-
-
-
-                        db = MySQLdb.connect(host="localhost", user=argv[1], port=3306,
-
-                                                         passwd=argv[2], db=argv[3])
-
-
-
-                            with db.cursor() as cur:
-
-                                        cur.execute("""
-
-                                                    SELECT
-
-                                                                    *
-
-                                                                                FROM
-
-                                                                                                states
-
-                                                                                                            WHERE
-
-                                                                                                                            name LIKE BINARY %(name)s
-
-                                                                                                                                        ORDER BY
-
-                                                                                                                                                        states.id ASC
-
-                                                                                                                                                                """, {
-
-                                                                                                                                                                                'name': argv[4]
-
-                                                                                                                                                                                        })
-
-
-
-                                                                                                                                                                        rows = cur.fetchall()
-
-
-
-                                                                                                                                                                            if rows is not None:
-
-                                                                                                                                                                                        for row in rows:
-
-                                                                                                                                                                                                        print(row)
+    for instance in session.query(State).order_by(State.id):
+        print('{0}: {1}'.format(instance.id, instance.name))
