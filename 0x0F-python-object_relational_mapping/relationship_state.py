@@ -9,6 +9,7 @@ from relationship_city import Base, City
 
 class State(Base):
     """Represents a state for a MySQL database.
+
     Attributes:
         __tablename__ (str): The name of the MySQL table to store States.
         id (sqlalchemy.Integer): The state's id.
