@@ -1,27 +1,18 @@
- your Github credentials and uses the GitHub API
+#!/usr/bin/python3
+"""Script that sends a POST request with data in the variable q"""
 
- to dispaly your ID.
+import requests
+from sys import argv
 
- """
-
-
-
- import requests
-
- from sys import argv
-
-
-
- if __name__ == '__main__':
-
-     url = 'https://api.github.com/user'
-
-         response = requests.get(url, auth=(argv[1], argv[2]))
-
-             try:
-
-                     print(response.json().get("id"))
-
-                         except ValueError:
-
-                                 print("Not a valid JSON")
+if __name__ == '__main__':
+    url = "http://0.0.0.0:5000/search_user"
+    data = {"q": argv[1][0] if len(argv) > 1 else ""}
+    response = requests.post(url, data=data)
+    try:
+        d = response.json()
+        if not d:
+            print("No result")
+        else:
+            print("[{}] {}".format(d.get("id"), d.get("name")))
+    except ValueError:
+        print("Not a valid JSON")
