@@ -1,1 +1,1 @@
-Javasript Web Quiery!
+javascript-web_jquery
